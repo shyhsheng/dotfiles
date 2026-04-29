@@ -5,6 +5,10 @@ return {
             local cmp = require("cmp")
             local has_luasnip, luasnip = pcall(require, "luasnip")
 
+            opts.preselect = cmp.PreselectMode.None
+            opts.completion = opts.completion or {}
+            opts.completion.completeopt = "menu,menuone,noinsert,noselect"
+
             opts.mapping = vim.tbl_extend("force", opts.mapping or {}, {
                 ["<C-Space>"] = cmp.mapping.complete(),
                 ["<CR>"] = cmp.mapping.confirm({ select = false }),
@@ -12,7 +16,7 @@ return {
                 ["<Tab>"] = cmp.mapping(function(fallback)
                     if cmp.visible() then
                         cmp.select_next_item({
-                            behavior = cmp.SelectBehavior.Select,
+                            behavior = cmp.SelectBehavior.Insert,
                         })
                     elseif has_luasnip and luasnip.expand_or_jumpable() then
                         luasnip.expand_or_jump()
@@ -24,7 +28,7 @@ return {
                 ["<S-Tab>"] = cmp.mapping(function(fallback)
                     if cmp.visible() then
                         cmp.select_prev_item({
-                            behavior = cmp.SelectBehavior.Select,
+                            behavior = cmp.SelectBehavior.Insert,
                         })
                     elseif has_luasnip and luasnip.jumpable(-1) then
                         luasnip.jump(-1)
