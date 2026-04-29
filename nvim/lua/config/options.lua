@@ -17,3 +17,5 @@ vim.opt.cursorline = true
 vim.opt.ignorecase = true
 
 vim.api.nvim_set_hl(0, "@lsp.mod.inactive", { link = "Normal" })
+
+vim.g.autoformat = false
