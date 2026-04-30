@@ -49,3 +49,9 @@ echo "Setting git End"
 
 curl -fsSL https://deb.nodesource.com/setup_22.x | sudo bash -
 sudo apt-get install -y nodejs
+sudo apt install fd-find
+
+. /etc/os-release
+if [ "${VERSION_ID%%.*}" -lt 24 ]; then
+    npm install -g tree-sitter-cli@0.24.7
+fi
