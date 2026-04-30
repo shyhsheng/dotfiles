@@ -1,0 +1,10 @@
+CompileFlags:
+  Add:
+    - --target=aarch64-linux-gnu
+    - -Wno-unknown-warning-option
+    - -Wno-unused-command-line-argument
+
+  Remove:
+    - -fconserve-stack
+    - -fsanitize=bounds-strict
+    - -mrecord-mcount

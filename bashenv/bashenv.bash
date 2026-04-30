@@ -18,8 +18,8 @@ export CCACHE_DIR=~/.ccache
 export USE_CCACHE=1
 
 export PATH=~/.ccache:$PATH
-export PATH=$PATH:~/bin
-export PATH=$PATH:~/bin/android_tool/adb
+export PATH=~/.config/dotfiles/bin:$PATH
+
 
 #show the current branch in Git
 function git_branch {
