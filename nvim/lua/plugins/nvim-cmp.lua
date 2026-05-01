@@ -37,6 +37,14 @@ return {
                     end
                 end, { "i", "s" }),
 
+                ["<Esc>"] = cmp.mapping(function(fallback)
+                    if cmp.visible() then
+                        cmp.abort()
+                    else
+                        fallback()
+                    end
+                end, { "i", "s" }),
+
                 ["<C-e>"] = cmp.mapping.close(),
             })
 
