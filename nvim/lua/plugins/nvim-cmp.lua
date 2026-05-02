@@ -4,6 +4,8 @@ return {
         opts = function(_, opts)
             local cmp = require("cmp")
             local has_luasnip, luasnip = pcall(require, "luasnip")
+            opts.experimental = opts.experimental or {}
+            opts.experimental.ghost_text = false
 
             opts.preselect = cmp.PreselectMode.None
             opts.completion = opts.completion or {}
