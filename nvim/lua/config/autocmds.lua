@@ -25,3 +25,31 @@ vim.api.nvim_create_autocmd("VimEnter", {
         end
     end,
 })
+
+vim.api.nvim_create_autocmd("User", {
+    pattern = "PersistenceLoadPost",
+    callback = function()
+        -- 1. find the first listed buffer
+        local first_buf = nil
+
+        for _, buf in ipairs(vim.fn.getbufinfo({ buflisted = 1  })) do
+            first_buf = buf.bufnr
+            break
+        end
+
+        -- 2. If the first buffer is snacks explorer/picker，delete it.
+        if first_buf and vim.api.nvim_buf_is_valid(first_buf) then
+            pcall(vim.api.nvim_buf_delete, first_buf, { force = true })
+        end
+
+        -- 3. focus on editor
+        vim.schedule(function()
+            pcall(function()
+                require("snacks").explorer({
+                    cwd = LazyVim.root(),
+                    enter = false,
+                })
+            end)
+        end)
+    end,
+})
