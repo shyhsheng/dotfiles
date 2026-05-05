@@ -1,6 +1,23 @@
 return {
     {
         "folke/snacks.nvim",
+        keys = {
+            -- 先 disable 原本的
+            { "<leader>ff", false },
+            { "<leader>fF", false },
+            { "<leader>sg", false },
+            { "<leader>sG", false },
+            { "<leader>sw", false },
+            { "<leader>sW", false },
+
+            -- 重新綁定（交換）
+            { "<leader>ff", LazyVim.pick("files", { root = false }), desc = "Find Files (cwd)" },
+            { "<leader>fF", LazyVim.pick("files"), desc = "Find Files (Root Dir)"},
+            { "<leader>sg", LazyVim.pick("live_grep", { root = false }), desc = "Grep (cwd)" },
+            { "<leader>sG", LazyVim.pick("live_grep"), desc = "Grep (Root Dir)" },
+            { "<leader>sw", LazyVim.pick("grep_word", { root = false }), desc = "Visual selection or word (cwd)", mode = { "n", "x" } },
+            { "<leader>sW", LazyVim.pick("grep_word"), desc = "Visual selection or word (Root Dir)", mode = { "n", "x" } },
+        },
         opts = {
             picker = {
                 sources = {
