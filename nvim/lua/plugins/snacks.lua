@@ -9,8 +9,10 @@ return {
             { "<leader>sG", false },
             { "<leader>sw", false },
             { "<leader>sW", false },
+            { "<leader><space>", false },
 
             -- 重新綁定（交換）
+            { "<leader><space>", LazyVim.pick("files", { root = false }), desc = "Find Files (cwd)" },
             { "<leader>ff", LazyVim.pick("files", { root = false }), desc = "Find Files (cwd)" },
             { "<leader>fF", LazyVim.pick("files"), desc = "Find Files (Root Dir)"},
             { "<leader>sg", LazyVim.pick("live_grep", { root = false }), desc = "Grep (cwd)" },
