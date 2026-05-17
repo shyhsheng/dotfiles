@@ -18,6 +18,7 @@ echo ". ~/.config/dotfiles/bashenv/bashenv.bash" >> ~/.bashrc
 
 ln -s ~/.config/dotfiles/nvim ~/.config/nvim
 ln -s ~/.config/dotfiles/tmux ~/.config/tmux
+ln -s ~/.config/dotfiles/kitty ~/.config/kitty
 
 echo "Setting git Start"
 read -p "Name: " name
@@ -55,3 +56,11 @@ sudo apt install fd-find
 if [ "${VERSION_ID%%.*}" -lt 24 ]; then
     npm install -g tree-sitter-cli@0.24.7
 fi
+
+if ! command -v kitty >/dev/null 2>&1; then
+    curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+
+    mkdir -p ~/.local/bin
+    ln -sf ~/.local/kitty.app/bin/kitty ~/.local/bin/kitty
+fi
+
