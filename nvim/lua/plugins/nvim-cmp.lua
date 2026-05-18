@@ -41,7 +41,14 @@ return {
 
                 ["<Esc>"] = cmp.mapping(function(fallback)
                     if cmp.visible() then
-                        cmp.abort()
+                        if cmp.get_selected_entry() then
+                            -- 有顯示選單，且「有」選擇任何一個項目：只關閉選單
+                            cmp.abort()
+                        else
+                            -- 有顯示選單，但「沒有」選取任何項目：關閉選單並回到 Normal 模式
+                            cmp.abort()
+                            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, true, true), "n", true)
+                        end
                     else
                         fallback()
                     end
