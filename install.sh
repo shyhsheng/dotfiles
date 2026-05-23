@@ -19,6 +19,7 @@ echo ". ~/.config/dotfiles/bashenv/bashenv.bash" >> ~/.bashrc
 ln -s ~/.config/dotfiles/nvim ~/.config/nvim
 ln -s ~/.config/dotfiles/tmux ~/.config/tmux
 ln -s ~/.config/dotfiles/kitty ~/.config/kitty
+ln -s ~/.config/dotfiles/bashenv/inputrc ~/.inputrc
 
 echo "Setting git Start"
 read -p "Name: " name

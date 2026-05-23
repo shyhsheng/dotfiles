@@ -1,0 +1,10 @@
+set editing-mode vi
+set show-mode-in-prompt on
+
+# Insert 模式切換為直線游標 (\e[6 q)
+set vi-ins-mode-string "\1\e[6 q\2"
+# Normal 模式切換為方塊游標 (\e[2 q)
+set vi-cmd-mode-string "\1\e[2 q\2"
+
+set keymap vi-insert
+"\C-l": clear-screen
