@@ -1,0 +1,183 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+DB_DIR="${KDB_DIR:-$HOME/.config/dotfiles/docs/keymaps}"
+
+usage() {
+    cat <<USAGE
+Usage:
+  kdb
+  kdb list
+  kdb open <tool>
+  kdb find <keyword>
+  kdb add <tool> "<key>" "<action>" ["tags"]
+
+Examples:
+  kdb
+  kdb list
+  kdb open tmux
+  kdb find pane
+  kdb add tmux "prefix + z" "Zoom current pane" "pane window"
+USAGE
+}
+
+list_db() {
+    find "$DB_DIR" -maxdepth 1 -name '*.md' -printf '%f\n' \
+        | sed 's/\.md$//' \
+        | sort
+}
+
+open_db() {
+    local tool="${1:-}"
+    local file="$DB_DIR/$tool.md"
+
+    if [ -z "$tool" ]; then
+        usage
+        exit 1
+    fi
+
+    if [ ! -f "$file" ]; then
+        echo "ERROR: DB not found: $file"
+        echo
+        echo "Available DB:"
+        list_db
+        exit 1
+    fi
+
+    if command -v glow >/dev/null 2>&1; then
+        glow -p "$file"
+    elif command -v bat >/dev/null 2>&1; then
+        bat "$file"
+    elif command -v batcat >/dev/null 2>&1; then
+        batcat "$file"
+    else
+        less "$file"
+    fi
+}
+
+fzf_db() {
+    command -v fzf >/dev/null 2>&1 || {
+        echo "ERROR: fzf is required"
+        exit 1
+    }
+
+    command -v rg >/dev/null 2>&1 || {
+        echo "ERROR: rg is required"
+        exit 1
+    }
+
+    cd "$DB_DIR"
+
+    rg --no-heading \
+       --line-number \
+       --ignore-case \
+       '^\| [^|-].*\|.*\|.*\|' . \
+    | fzf \
+        --delimiter ':' \
+        --with-nth '1,3..' \
+        --ansi \
+        --prompt='keymap> ' \
+        --preview '
+            file={1}
+            line={2}
+
+            start=$((line-15))
+            [ $start -lt 1 ] && start=1
+
+            end=$((line+15))
+
+            bat \
+                --theme="Monokai Extended Bright" \
+                --style=numbers \
+                --color=always \
+                --highlight-line "$line" \
+                --line-range "${start}:${end}" \
+                "$file"
+        ' \
+        --preview-window='right:68%:wrap' \
+        --bind 'alt-u:preview-up' \
+        --bind 'alt-d:preview-down'
+}
+
+find_db() {
+    local keyword="${1:-}"
+
+    if [ -z "$keyword" ]; then
+        fzf_db
+        return
+    fi
+
+    rg --line-number --ignore-case "$keyword" "$DB_DIR"
+}
+
+add_db() {
+    local tool="${1:-}"
+    local key="${2:-}"
+    local action="${3:-}"
+    local tags="${4:-}"
+
+    if [ -z "$tool" ] || [ -z "$key" ] || [ -z "$action" ]; then
+        usage
+        exit 1
+    fi
+
+    mkdir -p "$DB_DIR"
+
+    local file="$DB_DIR/$tool.md"
+
+    if [ ! -f "$file" ]; then
+        cat > "$file" <<EOF2
+# $tool keymaps
+
+## Inbox
+
+| Key | Action | Tags |
+|---|---|---|
+EOF2
+    fi
+
+    printf '| %s | %s | %s |\n' \
+        "$key" \
+        "$action" \
+        "$tags" >> "$file"
+
+    echo "Added to $file:"
+    echo "| $key | $action | $tags |"
+}
+
+main() {
+    local cmd="${1:-}"
+
+    case "$cmd" in
+        "")
+            fzf_db
+            ;;
+        list)
+            list_db
+            ;;
+        open)
+            shift
+            open_db "$@"
+            ;;
+        find)
+            shift
+            find_db "$@"
+            ;;
+        add)
+            shift
+            add_db "$@"
+            ;;
+        -h|--help|help)
+            usage
+            ;;
+        *)
+            echo "ERROR: unknown command: $cmd"
+            echo
+            usage
+            exit 1
+            ;;
+    esac
+}
+
+main "$@"
