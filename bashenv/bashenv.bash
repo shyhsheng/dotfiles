@@ -64,6 +64,7 @@ function tmux_sync_env() {
 . ~/.config/dotfiles/bashenv/completion/ifconfig-completion.bash
 . ~/.config/dotfiles/bashenv/completion/adb-completion.bash
 . ~/.config/dotfiles/bashenv/completion/fastboot-completion.bash
+. ~/.config/dotfiles/bashenv/completion/kdb-completion.bash
 
 tmux_sync_env
 
