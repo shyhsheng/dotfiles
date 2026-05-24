@@ -66,3 +66,47 @@
 |---|---|---|
 | ctrl + a | increase number under cursor | increase number |
 | ctrl + x | decrease number under cursor | decrease number |
+
+
+## Append Text to End of Multiple Lines (Different Lengths)
+
+### Visual Block Method
+
+1. `Ctrl + v` → Enter Visual Block mode
+2. `j` / `k` → Select multiple lines
+3. `$` → Extend selection to end of each line
+4. `Shift + a` (`A`) → Append at line end
+5. Type text (example: `;`)
+6. `Esc` → Apply to all lines
+
+### Example
+
+Before:
+```txt
+apple
+banana
+watermelon
+```
+
+After:
+```txt
+apple;
+banana;
+watermelon;
+```
+
+---
+
+## Alternative: `:normal`
+
+Useful for many lines without Visual Block.
+
+1. `Shift + v` → Select lines
+2. Run:
+
+```vim
+:normal A;
+```
+
+This appends `;` to the end of every selected line.
+
