@@ -19,7 +19,8 @@ export USE_CCACHE=1
 
 export PATH=~/.ccache:$PATH
 export PATH=~/.config/dotfiles/bin:$PATH
-
+export PATH=~/bin:$PATH
+export PATH=~/bin/android_tool/adb:$PATH
 
 #show the current branch in Git
 function git_branch {
@@ -37,7 +38,7 @@ function git_since_last_commit {
     echo "${hours_since_last_commit}h${minutes_since_last_commit}m ";
 }
 
-function tmux_sync_env() {
+function tmux-sync-env {
     command -v tmux >/dev/null 2>&1 || return
     [ -n "$TMUX" ] || return
 
@@ -55,6 +56,8 @@ function tmux_sync_env() {
         eval "val=\${$v}"
         [ -n "$val" ] && tmux set-environment -g "$v" "$val"
     done
+
+    export DISPLAY=$(tmux show-env | grep "^DISPLAY=" | cut -d= -f2); export SSH_AUTH_SOCK=$(tmux show-env | grep "^SSH_AUTH_SOCK=" | cut -d= -f2)
 }
 
 . ~/.config/dotfiles/bashenv/android/android_envsetup.sh
@@ -66,5 +69,5 @@ function tmux_sync_env() {
 . ~/.config/dotfiles/bashenv/completion/fastboot-completion.bash
 . ~/.config/dotfiles/bashenv/completion/kdb-completion.bash
 
-tmux_sync_env
+tmux-sync-env
 
