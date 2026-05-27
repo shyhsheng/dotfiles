@@ -63,6 +63,8 @@ if ! command -v kitty >/dev/null 2>&1; then
 
     mkdir -p ~/.local/bin
     ln -sf ~/.local/kitty.app/bin/kitty ~/.local/bin/kitty
+
+    sudo apt install kitty-terminfo
 fi
 
 if ! command -v lazygit >/dev/null 2>&1; then
