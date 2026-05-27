@@ -65,3 +65,56 @@ if ! command -v kitty >/dev/null 2>&1; then
     ln -sf ~/.local/kitty.app/bin/kitty ~/.local/bin/kitty
 fi
 
+if ! command -v lazygit >/dev/null 2>&1; then
+    echo "lazygit not found, installing..."
+
+    LAZYGIT_VERSION=$(
+        curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" \
+        | grep -Po '"tag_name": "v\K[^"]*'
+    )
+
+    TMP_DIR=$(mktemp -d)
+
+    curl -Lo "${TMP_DIR}/lazygit.tar.gz" \
+        "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+
+    tar xf "${TMP_DIR}/lazygit.tar.gz" -C "${TMP_DIR}" lazygit
+
+    sudo install "${TMP_DIR}/lazygit" /usr/local/bin
+
+    rm -rf "${TMP_DIR}"
+
+    echo "lazygit ${LAZYGIT_VERSION} installed successfully"
+fi
+
+if ! command -v delta >/dev/null 2>&1; then
+    echo "delta not found, installing"
+    DELTA_VERSION=$(
+        curl -s "https://api.github.com/repos/dandavison/delta/releases/latest" \
+        | grep -Po '"tag_name": "\K[^"]*'
+    )
+    TMP_DIR=$(mktemp -d)
+
+    curl -Lo "${TMP_DIR}/delta_amd64.deb" \
+        "https://github.com/dandavison/delta/releases/download/${DELTA_VERSION}/git-delta_${DELTA_VERSION}_amd64.deb"
+
+    sudo dpkg -i "${TMP_DIR}/delta_amd64.deb"
+
+    rm -rf "${TMP_DIR}"
+    echo "delta ${DELTA_VERSION} installed successfully"
+
+    git config --global core.pager delta
+    git config --global interactive.diffFilter 'delta --color-only'
+    git config --global delta.navigate true
+    git config --global delta.dark true
+    git config --global delta.line-numbers true
+    #
+    # Command for list all syntax themes
+    # $ delta --list-syntax-themes
+    #
+    # Quickly test theme :
+    # $ git diff | delta --syntax-theme Nord
+    #
+    git config --global delta.syntax-theme = "Catppuccin Mocha"
+    git config --global merge.conflictStyle zdiff3
+fi
