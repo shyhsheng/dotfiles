@@ -4,26 +4,49 @@ who=$(whoami)
 
 bashrc_f="/home/$who/.bashrc"
 
-while read line
-do
-    if [[ $line =~ "bashenv/bashenv.bash" ]]; then
-        echo "already installed"
-        exit
+if [ -z $1 ]; then
+    while read line
+    do
+        if [[ $line =~ "bashenv/bashenv.bash" ]]; then
+            echo "already installed"
+            exit
+        fi
+    done < $bashrc_f
+
+    echo ". ~/.config/dotfiles/bashenv/bashenv.bash" >> ~/.bashrc
+    . ~/.bashrc
+fi
+
+link_if_not_exists() {
+    local src="$1"
+    local dst="$2"
+
+    if [ -L "$dst" ]; then
+        echo "[SKIP] symlink already exists: $dst"
+    elif [ -e "$dst" ]; then
+        echo "[SKIP] target already exists and is not a symlink: $dst"
+    else
+        ln -s "$src" "$dst"
+        echo "[LINK] $dst -> $src"
     fi
-done < $bashrc_f
+}
 
-echo ". ~/.config/dotfiles/bashenv/bashenv.bash" >> ~/.bashrc
-. ~/.bashrc
+link_if_not_exists ~/.config/dotfiles/nvim ~/.config/nvim
+link_if_not_exists ~/.config/dotfiles/tmux ~/.config/tmux
+link_if_not_exists ~/.config/dotfiles/kitty ~/.config/kitty
+link_if_not_exists ~/.config/dotfiles/bashenv/inputrc ~/.inputrc
 
+echo "Start Setting Git"
 
-ln -s ~/.config/dotfiles/nvim ~/.config/nvim
-ln -s ~/.config/dotfiles/tmux ~/.config/tmux
-ln -s ~/.config/dotfiles/kitty ~/.config/kitty
-ln -s ~/.config/dotfiles/bashenv/inputrc ~/.inputrc
+name=$(git config user.name)
+email=$(git config user.email)
 
-echo "Setting git Start"
-read -p "Name: " name
-read -p "Email: " email
+if [ -z ${name} ]; then
+    read -p "Name: " name
+fi
+if [ -z ${email} ]; then
+    read -p "Email: " email
+fi
 
 git config --global user.name "$name"
 git config --global user.email "$email"
@@ -47,18 +70,29 @@ fi
 git config --global core.fileMode false
 git config --global merge.tool kdiff3
 git config --global diff.tool kdiff3
-echo "Setting git End"
-
-curl -fsSL https://deb.nodesource.com/setup_22.x | sudo bash -
-sudo apt-get install -y nodejs
-sudo apt install fd-find
+echo "Setting Git successfully"
 
 . /etc/os-release
+
 if [ "${VERSION_ID%%.*}" -lt 24 ]; then
-    npm install -g tree-sitter-cli@0.24.7
+
+    if ! command -v tree-sitter >/dev/null 2>&1; then
+        npm install -g tree-sitter-cli@0.24.7
+    fi
+
+    if ! command -v node >/dev/null 2>&1; then
+        curl -fsSL https://deb.nodesource.com/setup_22.x | sudo bash -
+        sudo apt-get install -y nodejs
+    fi
+fi
+
+if ! command -v fdfind >/dev/null 2>&1; then
+    echo "fd-find not found, installing"
+    sudo apt install fd-find
 fi
 
 if ! command -v kitty >/dev/null 2>&1; then
+    echo "kitty nodt found, installing"
     curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
 
     mkdir -p ~/.local/bin
