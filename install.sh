@@ -23,11 +23,14 @@ link_if_not_exists() {
 
     if [ -L "$dst" ]; then
         echo "[SKIP] symlink already exists: $dst"
+        return 1
     elif [ -e "$dst" ]; then
         echo "[SKIP] target already exists and is not a symlink: $dst"
+        return 1
     else
         ln -s "$src" "$dst"
         echo "[LINK] $dst -> $src"
+        return 0
     fi
 }
 
@@ -35,6 +38,12 @@ link_if_not_exists ~/.config/dotfiles/nvim ~/.config/nvim
 link_if_not_exists ~/.config/dotfiles/tmux ~/.config/tmux
 link_if_not_exists ~/.config/dotfiles/kitty ~/.config/kitty
 link_if_not_exists ~/.config/dotfiles/bashenv/inputrc ~/.inputrc
+link_if_not_exists ~/.config/dotfiles/bashenv/systemd/user/tmux.service ~/.config/systemd/user/tmux.service \
+                    && { systemctl --user daemon-reload
+                       systemctl --user enable tmux.service
+                       systemctl --user start tmux.service
+                       loginctl enable-linger $USER
+                    }
 
 echo "Start Setting Git"
 

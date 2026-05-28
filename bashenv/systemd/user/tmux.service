@@ -1,0 +1,12 @@
+[Unit]
+Description=Start tmux
+Documentation=man:tmux(1)
+
+[Service]
+Type=forking
+RemainAfterExit=yes
+ExecStart=/snap/bin/tmux new-session -d
+ExecStop=/snap/bin/tmux kill-server
+
+[Install]
+WantedBy=default.target
