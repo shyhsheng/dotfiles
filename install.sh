@@ -163,3 +163,8 @@ if ! command -v delta >/dev/null 2>&1; then
     git config --global delta.syntax-theme = "Catppuccin Mocha"
     git config --global merge.conflictStyle zdiff3
 fi
+
+
+if ! command -v zoxide >/dev/null 2>&1; then
+    curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+fi

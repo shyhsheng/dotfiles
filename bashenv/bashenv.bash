@@ -75,3 +75,4 @@ function tmux-sync-env {
 
 tmux-sync-env
 
+eval "$(zoxide init bash)"
