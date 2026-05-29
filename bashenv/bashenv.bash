@@ -15,6 +15,7 @@ alias frb='fastboot reboot-bootloader'
 alias foh='fastboot oem hellow'
 
 alias gg='lazygit'
+alias ggl='lazygit log'
 
 export CCACHE_DIR=~/.ccache
 export USE_CCACHE=1
