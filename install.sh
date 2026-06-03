@@ -132,38 +132,39 @@ if ! command -v lazygit >/dev/null 2>&1; then
     echo "lazygit ${LAZYGIT_VERSION} installed successfully"
 fi
 
-if ! command -v delta >/dev/null 2>&1; then
-    echo "delta not found, installing"
-    DELTA_VERSION=$(
-        curl -s "https://api.github.com/repos/dandavison/delta/releases/latest" \
-        | grep -Po '"tag_name": "\K[^"]*'
-    )
-    TMP_DIR=$(mktemp -d)
+if [ "${VERSION_ID%%.*}" -ge 24 ]; then
+    if ! command -v delta >/dev/null 2>&1; then
+        echo "delta not found, installing"
+        DELTA_VERSION=$(
+            curl -s "https://api.github.com/repos/dandavison/delta/releases/latest" \
+            | grep -Po '"tag_name": "\K[^"]*'
+        )
+        TMP_DIR=$(mktemp -d)
 
-    curl -Lo "${TMP_DIR}/delta_amd64.deb" \
-        "https://github.com/dandavison/delta/releases/download/${DELTA_VERSION}/git-delta_${DELTA_VERSION}_amd64.deb"
+        curl -Lo "${TMP_DIR}/delta_amd64.deb" \
+            "https://github.com/dandavison/delta/releases/download/${DELTA_VERSION}/git-delta_${DELTA_VERSION}_amd64.deb"
 
-    sudo dpkg -i "${TMP_DIR}/delta_amd64.deb"
+        sudo dpkg -i "${TMP_DIR}/delta_amd64.deb"
 
-    rm -rf "${TMP_DIR}"
-    echo "delta ${DELTA_VERSION} installed successfully"
+        rm -rf "${TMP_DIR}"
+        echo "delta ${DELTA_VERSION} installed successfully"
 
-    git config --global core.pager delta
-    git config --global interactive.diffFilter 'delta --color-only'
-    git config --global delta.navigate true
-    git config --global delta.dark true
-    git config --global delta.line-numbers true
-    #
-    # Command for list all syntax themes
-    # $ delta --list-syntax-themes
-    #
-    # Quickly test theme :
-    # $ git diff | delta --syntax-theme Nord
-    #
-    git config --global delta.syntax-theme = "Catppuccin Mocha"
-    git config --global merge.conflictStyle zdiff3
+        git config --global core.pager delta
+        git config --global interactive.diffFilter 'delta --color-only'
+        git config --global delta.navigate true
+        git config --global delta.dark true
+        git config --global delta.line-numbers true
+        #
+        # Command for list all syntax themes
+        # $ delta --list-syntax-themes
+        #
+        # Quickly test theme :
+        # $ git diff | delta --syntax-theme Nord
+        #
+        git config --global delta.syntax-theme "Catppuccin Mocha"
+        git config --global merge.conflictStyle zdiff3
+    fi
 fi
-
 
 if ! command -v zoxide >/dev/null 2>&1; then
     curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
