@@ -24,3 +24,13 @@
 |---|---|---|
 | prefix + d | Detach session | session detach |
 | prefix + s | Choose session | session switch |
+| prefix + b | Previous session | session switch |
+
+
+## Plugin
+
+| Key | Action | Tags |
+|---|---|---|
+| prefix + P | Start/Stop Recording Screen | Screen Recording |
+| prefix + alt + p | Screen Capture | Screen Capture |
+| prefix + alt + P | Save Complete Screen History | Capture Screen |
