@@ -19,3 +19,14 @@ vim.opt.ignorecase = true
 vim.api.nvim_set_hl(0, "@lsp.mod.inactive", { link = "Normal" })
 
 vim.g.autoformat = false
+
+vim.opt.laststatus = 3
+vim.opt.fillchars = {
+  vert = "┃",
+  horiz = "━",
+  horizup = "┻",
+  horizdown = "┳",
+  vertleft = "┫",
+  vertright = "┣",
+  verthoriz = "╋",
+}

@@ -13,6 +13,11 @@ return {
                 hl.IlluminatedWordText = { bg = "#545c8c", underline = true }
                 hl.IlluminatedWordRead = { bg = "#545c8c", underline = true }
                 hl.IlluminatedWordWrite = { bg = "#545c8c", underline = true }
+                hl.WinSeparator = {
+                    fg = "#ff9e64",
+                    bg = "NONE",
+                    -- bold = true,
+                }
             end,
         },
     },
