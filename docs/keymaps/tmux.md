@@ -24,7 +24,9 @@
 |---|---|---|
 | prefix + d | Detach session | session detach |
 | prefix + s | Choose session | session switch |
-| prefix + b | Previous session | session switch |
+| Alt + b | Previous session | session switch |
+| Alt + s | Next session | session switch |
+| Alt + S | Pre session | session switch |
 
 
 ## Plugin
