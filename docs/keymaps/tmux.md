@@ -36,3 +36,5 @@
 | prefix + P | Start/Stop Recording Screen | Screen Recording |
 | prefix + alt + p | Screen Capture | Screen Capture |
 | prefix + alt + P | Save Complete Screen History | Capture Screen |
+| prefix + Ctrl + h | Open the url or files | Url Opening (tmux-fzf-links) |
+| prefix + u | Open the url | Url Opening (tmux-fzf-url) |
