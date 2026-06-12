@@ -1,0 +1,18 @@
+#:schema https://github.com/joshmedeski/sesh/raw/main/sesh.schema.json
+
+blacklist = ["scratch"]
+
+dir_length = 2
+
+cache = false
+
+[[session]]
+name = "tmux config"
+path = "~/.config/dotfiles"
+startup_command = "nvim tmux/tmux.conf"
+preview_command = "bat --color=always ~/.config/dotfiles/tmux/tmux.conf"
+
+
+[default_session]
+startup_command = "ls"
+# preview_command = "eza --all --git --icons --color=always {}"

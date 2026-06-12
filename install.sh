@@ -44,6 +44,7 @@ link_if_not_exists ~/.config/dotfiles/bashenv/systemd/user/tmux.service ~/.confi
                        systemctl --user start tmux.service
                        loginctl enable-linger $USER
                     }
+link_if_not_exists ~/.config/dotfiles/sesh ~/.config/sesh
 
 echo "Start Setting Git"
 
@@ -168,4 +169,15 @@ fi
 
 if ! command -v zoxide >/dev/null 2>&1; then
     curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+fi
+
+if ! command -v sesh >/dev/null 2>&1; then
+    if ! command -v go >/dev/null 2>&1; then
+        echo "sesh not found , installing"
+        go install github.com/joshmedeski/sesh/v2@latest
+        sesh completion bash > sesh-completion.bash
+        sudo mv sesh-completion.bash /etc/bash_completion.d/
+    else
+        echo "go not found, skip installing sesh"
+    fi
 fi

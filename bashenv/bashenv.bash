@@ -25,6 +25,7 @@ export PATH=~/.config/dotfiles/bin:$PATH
 export PATH=~/bin:$PATH
 export PATH=~/bin/android_tool/adb:$PATH
 export PATH="$HOME/.fzf/bin:$PATH"
+export PATH="$HOME/go/bin:$PATH"
 
 #show the current branch in Git
 function git_branch {
