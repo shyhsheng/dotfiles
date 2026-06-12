@@ -181,3 +181,7 @@ if ! command -v sesh >/dev/null 2>&1; then
         echo "go not found, skip installing sesh"
     fi
 fi
+
+### for tmux-window-name
+python3 -m pip install --user libtmux
+python3 -m pip install dataclasses --user
