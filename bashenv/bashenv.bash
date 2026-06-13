@@ -74,6 +74,14 @@ function tmux-sync-env {
 . ~/.config/dotfiles/bashenv/completion/fastboot-completion.bash
 . ~/.config/dotfiles/bashenv/completion/kdb-completion.bash
 
+source ~/.config/dotfiles/fzf/theme/catppuccin-fzf-mocha.sh
+
+# Sync FZF theme into tmux
+if [ -n "$TMUX" ]; then
+    tmux set-environment -g FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS"
+    tmux set-environment FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS"
+fi
+
 tmux-sync-env
 
 eval "$(zoxide init bash)"
