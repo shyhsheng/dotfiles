@@ -3,7 +3,7 @@ PS1='\[\033[01;32m\]\u \[\033[01;33m\]$(git_branch)\[\033[00m\]#\# [\[\033[01;34
 alias e='nautilus'
 
 alias nvimo='NVIM_APPNAME=nvim-old nvim'
-
+alias v='nvim'
 alias wf='adb wait-for-device'
 alias ar='adb wait-for-device root'
 alias as='adb wait-for-device shell'
@@ -16,6 +16,8 @@ alias foh='fastboot oem hellow'
 
 alias gg='lazygit'
 alias ggl='lazygit log'
+
+alias rgf='rg --line-number --no-heading --color=always'
 
 export CCACHE_DIR=~/.ccache
 export USE_CCACHE=1
