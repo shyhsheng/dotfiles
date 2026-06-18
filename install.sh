@@ -186,3 +186,9 @@ fi
 ### for tmux-window-name
 python3 -m pip install --user libtmux
 python3 -m pip install dataclasses --user
+
+### for tmux-jump
+if ! command -v ruby >/dev/null 2>&1; then
+    echo "ruby not found, installing"
+    sudo apt install -y ruby
+fi
