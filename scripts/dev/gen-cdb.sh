@@ -15,7 +15,11 @@ fi
 echo "Generating $OUTPUT in:"
 pwd
 
-BUILD_CMD=(make V=1 -j"$(nproc)" "$@")
+if [[ -d "/lib/modules/$(uname -r)/build" ]]; then
+    BUILD_CMD=(make -C "/lib/modules/$(uname -r)/build" M="$PWD" V=1 -j"$(nproc)" modules "$@")
+else
+    BUILD_CMD=(make V=1 -j"$(nproc)" "$@")
+fi
 
 if bear --help 2>&1 | grep -q -- '--output'; then
     bear --output "$OUTPUT" -- "${BUILD_CMD[@]}"
