@@ -28,7 +28,7 @@ link_if_not_exists() {
         echo "[SKIP] target already exists and is not a symlink: $dst"
         return 1
     else
-        ln -s "$src" "$dst"
+        ln -snfT "$src" "$dst"
         echo "[LINK] $dst -> $src"
         return 0
     fi
@@ -45,6 +45,7 @@ link_if_not_exists ~/.config/dotfiles/bashenv/systemd/user/tmux.service ~/.confi
                        loginctl enable-linger $USER
                     }
 link_if_not_exists ~/.config/dotfiles/sesh ~/.config/sesh
+link_if_not_exists ~/.config/dotfiles/copilot/instructions ~/copilot/instructions
 
 echo "Start Setting Git"
 
