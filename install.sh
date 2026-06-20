@@ -4,17 +4,17 @@ who=$(whoami)
 
 bashrc_f="/home/$who/.bashrc"
 
-if [ -z $1 ]; then
-    while read line
+if [ -z "$1" ]; then
+    while read -r line
     do
-        if [[ $line =~ "bashenv/bashenv.bash" ]]; then
+        if [[ "bashenv/bashenv.bash" =~ $line ]]; then
             echo "already installed"
             exit
         fi
-    done < $bashrc_f
+    done < "$bashrc_f"
 
     echo ". ~/.config/dotfiles/bashenv/bashenv.bash" >> ~/.bashrc
-    . ~/.bashrc
+    source ~/.bashrc
 fi
 
 link_if_not_exists() {
@@ -42,7 +42,7 @@ link_if_not_exists ~/.config/dotfiles/bashenv/systemd/user/tmux.service ~/.confi
                     && { systemctl --user daemon-reload
                        systemctl --user enable tmux.service
                        systemctl --user start tmux.service
-                       loginctl enable-linger $USER
+                       loginctl enable-linger "$USER"
                     }
 link_if_not_exists ~/.config/dotfiles/sesh ~/.config/sesh
 link_if_not_exists ~/.config/dotfiles/copilot/instructions ~/copilot/instructions
@@ -52,11 +52,11 @@ echo "Start Setting Git"
 name=$(git config user.name)
 email=$(git config user.email)
 
-if [ -z ${name} ]; then
-    read -p "Name: " name
+if [ -z "${name}" ]; then
+    read -rp "Name: " name
 fi
-if [ -z ${email} ]; then
-    read -p "Email: " email
+if [ -z "${email}" ]; then
+    read -rp "Email: " email
 fi
 
 git config --global user.name "$name"
