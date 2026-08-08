@@ -1,0 +1,23 @@
+{
+  "skill_name": "linux-dotfiles-advisor",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Please audit my dotfiles repo for Linux (bash + nvim + tmux + kitty). Give me the top risks, top quick wins, and a staged plan for cleanup without breaking my current workflow.",
+      "expected_output": "A structured audit with strengths, prioritized findings by severity, actionable recommendations, and a phased implementation plan with validation steps.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "My shell and editor startup feel slow. Propose how to find bottlenecks in bashenv and nvim config, then suggest low-risk optimizations and how to verify improvements.",
+      "expected_output": "Specific startup bottleneck hypotheses, measurement approach, minimal optimization suggestions, and before/after verification commands.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Suggest practical additions to my dotfiles stack for Linux power use, but keep it lean. I use tmux, kitty, nvim, fzf, and custom scripts. Include what to add now vs later.",
+      "expected_output": "A lean tool and config suggestion list split into immediate and later phases, each with rationale, tradeoffs, and integration notes.",
+      "files": []
+    }
+  ]
+}
